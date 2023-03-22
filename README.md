@@ -1,2 +1,2 @@
 # my_codes_record
-a place that restore almost all my codes 
+a place that store my codes
