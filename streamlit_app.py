@@ -372,125 +372,125 @@ with c5 :
 # hugging face
 # code can refer to https://github.com/charlywargnier/zero-shot-classifier/blob/main/streamlit_app.py
 
-from streamlit_option_menu import option_menu
+# from streamlit_option_menu import option_menu
 
-with st.sidebar:
-    selected = option_menu(
-        "",
-        ["Demo", "Unlocked Mode"],
-        icons=["bi-joystick", "bi-key-fill"],
-        menu_icon="",
-        default_index=0,
-    )
+# with st.sidebar:
+#     selected = option_menu(
+#         "",
+#         ["Demo", "Unlocked Mode"],
+#         icons=["bi-joystick", "bi-key-fill"],
+#         menu_icon="",
+#         default_index=0,
+#     )
 
-API_KEY = st.secrets["hugface"]
-API_URL = (
-    "https://api-inference.huggingface.co/models/valhalla/distilbart-mnli-12-3"
-)
-headers = {"Authorization": f"Bearer {API_KEY}"}
+# API_KEY = st.secrets["hugface"]
+# API_URL = (
+#     "https://api-inference.huggingface.co/models/valhalla/distilbart-mnli-12-3"
+# )
+# headers = {"Authorization": f"Bearer {API_KEY}"}
 
-from streamlit_tags import st_tags, st_tags_sidebar
-label_widget = st_tags(
-    label="",
-    text="Add labels - 3 max",
-    value=["Transactional", "Informational"],
-    suggestions=[
-        "Navigational",
-        "Transactional",
-        "Informational",
-        "Positive",
-        "Negative",
-        "Neutral",
-    ],
-    maxtags=3,
-)
-MAX_LINES = 5
+# from streamlit_tags import st_tags, st_tags_sidebar
+# label_widget = st_tags(
+#     label="",
+#     text="Add labels - 3 max",
+#     value=["Transactional", "Informational"],
+#     suggestions=[
+#         "Navigational",
+#         "Transactional",
+#         "Informational",
+#         "Positive",
+#         "Negative",
+#         "Neutral",
+#     ],
+#     maxtags=3,
+# )
+# MAX_LINES = 5
 
-sample = """
-I want to buy something in this store
-How to ask a question about a product
-Request a refund through the Google Play store
-I have a broken screen, what should I do?
-Can I have the link to the product?
-"""
+# sample = """
+# I want to buy something in this store
+# How to ask a question about a product
+# Request a refund through the Google Play store
+# I have a broken screen, what should I do?
+# Can I have the link to the product?
+# """
 
-text = st.text_area(
-    "Enter keyphrase to classify",
-    sample,
-    height=200,
-    key="2",
-    help="At least two keyphrases for the classifier to work, one per line, "
-    + str(MAX_LINES)
-    + " keyphrases max as part of the demo",
-)
-lines = text.split("\n")  # A list of lines
-lines = list(filter(None, set(lines)))
+# text = st.text_area(
+#     "Enter keyphrase to classify",
+#     sample,
+#     height=200,
+#     key="2",
+#     help="At least two keyphrases for the classifier to work, one per line, "
+#     + str(MAX_LINES)
+#     + " keyphrases max as part of the demo",
+# )
+# lines = text.split("\n")  # A list of lines
+# lines = list(filter(None, set(lines)))
 
-if len(lines) > MAX_LINES:
-    st.info(
-        f"🚨 Only the first "
-        + str(MAX_LINES)
-        + " keyprases will be reviewed. Unlock that limit by switching to 'Unlocked Mode'"
-    )
+# if len(lines) > MAX_LINES:
+#     st.info(
+#         f"🚨 Only the first "
+#         + str(MAX_LINES)
+#         + " keyprases will be reviewed. Unlock that limit by switching to 'Unlocked Mode'"
+#     )
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    # Unhash to check status codes from the API response
-    # st.write(response.status_code)
-    return response.json()    
+# def query(payload):
+#     response = requests.post(API_URL, headers=headers, json=payload)
+#     # Unhash to check status codes from the API response
+#     # st.write(response.status_code)
+#     return response.json()    
 
-listToAppend = []
-for row in lines:
-    output2 = query(
-                {
-                    "inputs": row,
-                    "parameters": {"candidate_labels": label_widget},
-                    "options": {"wait_for_model": True},
-                }
-            )
-    listToAppend.append(output2)
+# listToAppend = []
+# for row in lines:
+#     output2 = query(
+#                 {
+#                     "inputs": row,
+#                     "parameters": {"candidate_labels": label_widget},
+#                     "options": {"wait_for_model": True},
+#                 }
+#             )
+#     listToAppend.append(output2)
 
-df = pd.DataFrame.from_dict(listToAppend)
+# df = pd.DataFrame.from_dict(listToAppend)
 
-from st_aggrid import AgGrid
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import JsCode
-from st_aggrid import GridUpdateMode, DataReturnMode
+# from st_aggrid import AgGrid
+# from st_aggrid.grid_options_builder import GridOptionsBuilder
+# from st_aggrid.shared import JsCode
+# from st_aggrid import GridUpdateMode, DataReturnMode
 
-gb = GridOptionsBuilder.from_dataframe(df)
-gb.configure_default_column(
-    enablePivot=True, enableValue=True, enableRowGroup=True
-)
-gb.configure_selection(selection_mode="multiple", use_checkbox=True)
-gb.configure_side_bar()  # side_bar is clearly a typo :) should by sidebar
-gridOptions = gb.build()
+# gb = GridOptionsBuilder.from_dataframe(df)
+# gb.configure_default_column(
+#     enablePivot=True, enableValue=True, enableRowGroup=True
+# )
+# gb.configure_selection(selection_mode="multiple", use_checkbox=True)
+# gb.configure_side_bar()  # side_bar is clearly a typo :) should by sidebar
+# gridOptions = gb.build()
 
-response = AgGrid(
-    df,
-    gridOptions=gridOptions,
-    enable_enterprise_modules=True,
-    update_mode=GridUpdateMode.MODEL_CHANGED,
-    data_return_mode=DataReturnMode.FILTERED_AND_SORTED,
-    height=400,
-    fit_columns_on_grid_load=False,
-    configure_side_bar=True,
-)
+# response = AgGrid(
+#     df,
+#     gridOptions=gridOptions,
+#     enable_enterprise_modules=True,
+#     update_mode=GridUpdateMode.MODEL_CHANGED,
+#     data_return_mode=DataReturnMode.FILTERED_AND_SORTED,
+#     height=400,
+#     fit_columns_on_grid_load=False,
+#     configure_side_bar=True,
+# )
     
 
-@st.cache_data
-def convert_df(df):
-    # IMPORTANT: Cache the conversion to prevent computation on every rerun
-    return df.to_csv().encode("utf-8")
+# @st.cache_data
+# def convert_df(df):
+#     # IMPORTANT: Cache the conversion to prevent computation on every rerun
+#     return df.to_csv().encode("utf-8")
 
-csv = convert_df(df)
+# csv = convert_df(df)
 
-st.caption("")
+# st.caption("")
 
-st.download_button(
-    label="Download results as CSV",
-    data=csv,
-    file_name="results.csv",
-    mime="text/csv",
+# st.download_button(
+#     label="Download results as CSV",
+#     data=csv,
+#     file_name="results.csv",
+#     mime="text/csv",
 )
 
 # end of hugging face
