@@ -93,15 +93,15 @@ my_bar.progress(60)
 
 # ----
 
-st.subheader('code block is how it is')
-st.code("""
-[theme]
-primaryColor="#F39C12"
-backgroundColor="#2E86C1"
-secondaryBackgroundColor="#AED6F1"
-textColor="#FFFFFF"
-font="monospace"
-""")
+# st.subheader('code block is how it is')
+#st.code("""
+#[theme]
+#primaryColor="#F39C12"
+#backgroundColor="#2E86C1"
+#secondaryBackgroundColor="#AED6F1"
+#textColor="#FFFFFF"
+#font="monospace"
+#""")
 
 # st.write(st.secrets['message'])
 
@@ -224,7 +224,7 @@ with c5 :
     st.metric(label = 'link', value = suggested_activity['link'])
 
 # ---
-from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sync, nivo
+#from streamlit_elements import elements, dashboard, mui, editor, media, lazy, sync, nivo
 from pathlib import Path
 import json
 
